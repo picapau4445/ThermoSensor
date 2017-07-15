@@ -7,7 +7,7 @@ import time
 from datetime import datetime
 
 # AwsIot lib
-import AwsIotLib.AwsIotMessage
+import AwsIotLib.awsIotMessage as aws
 
 # conf
 import thermoSensorConf as conf
@@ -42,6 +42,10 @@ if __name__ == ("__main__"):
     # raspi gpio init
     gpio_init(conf.gpio_no)
 
+    # AWS IoT init
+    awsIotMsgClient = aws.AwsIotMessage()
+    awsIotMsgClient.connect()
+
     # raspi temperature read 
     while (True):
         gpio_on(conf.gpio_no);
@@ -51,6 +55,8 @@ if __name__ == ("__main__"):
         print "temperature = ", str(temperature) 
         print "humidity = ", "comming soon!"
         print "message = ", message
+        awsIotMsgClient.publish(message)
         time.sleep(float(conf.interval))
 
     adc.close()
+    awsIotMsgClient.disconnect()
