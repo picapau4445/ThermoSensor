@@ -5,7 +5,7 @@ from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
 import sys
 import logging
 
-class AwsIot:
+class AwsIotMessage:
     
     # client connection instance
     myAWSIoTMQTTClient = None

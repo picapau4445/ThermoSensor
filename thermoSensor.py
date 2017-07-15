@@ -7,7 +7,7 @@ import time
 from datetime import datetime
 
 # AwsIot lib
-# import AwsIotLib.AwsIot as 
+import AwsIotLib.AwsIotMessage
 
 # conf
 import thermoSensorConf as conf
