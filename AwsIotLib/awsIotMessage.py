@@ -11,14 +11,14 @@ class AwsIotMessage:
     myAWSIoTMQTTClient = None
 
     # Custom MQTT message callback
-    def customCallback(client, userdata, message):
+    def customCallback(self, client, userdata, message):
         print("Received a new message: ")
         print(message.payload)
         print("from topic: ")
         print(message.topic)
         print("--------------\n\n")
 
-    def connect():
+    def connect(self):
         # Configure logging
         '''
         logger = logging.getLogger("AWSIoTPythonSDK.core")
@@ -51,8 +51,8 @@ class AwsIotMessage:
         self.mmyAWSIoTMQTTClient.connect()
         #myAWSIoTMQTTClient.subscribe("ohashiRaspiSensor", 1, customCallback)
 
-    def publish(message):
+    def publish(self, message):
         self.mmyAWSIoTMQTTClient.publish("ohashiRaspiSensor", message, 1)
 
-    def disconnect():
+    def disconnect(self):
         self.mmyAWSIoTMQTTClient.disconnect()
