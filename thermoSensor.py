@@ -52,6 +52,6 @@ if __name__ == ("__main__"):
         print "temperature = ", str(temp) 
         print "humidity = ", "comming soon!"
         print "message = ", message
-        time.sleep(interval)
+        time.sleep(conf.interval)
 
     adc.close()
