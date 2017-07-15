@@ -6,6 +6,9 @@ import spidev
 import time
 from datetime import datetime
 
+# conf
+import thermoSensorConf as conf
+
 def gpio_init(gpiono):
     GPIO.setmode(GPIO.BOARD) #use GPIO Number
     GPIO.setup(gpiono, GPIO.OUT)
@@ -35,20 +38,20 @@ if __name__ == ("__main__"):
     channel=0 # select CH0 : ADC/MCP3008
 
     # raspi gpio init
-    gpio_init(11)
+    gpio_init(conf.gpiono1)
 
-    interval = float(600)
+    interval = interval1
 
     # raspi temperature read 
     while (True):
     #for i in range():
-        gpio_on(11);
+        gpio_on(conf.gpiono1);
         now = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
         temp = temp_read(adc, channel)
         message = '{"temperature": ' + str(temp) + ', "recDate": "' + now + '", "deviceId": "ohashi_raspi_modelB"}'
-        print("temperature = ", str(temp)) 
-        print("humidity = ", "comming soon!") 
-        print("message = ", message)
+        print "temperature = ", str(temp) 
+        print "humidity = ", "comming soon!"
+        print "message = ", message
         time.sleep(interval)
 
     adc.close()
