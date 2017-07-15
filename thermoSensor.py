@@ -21,35 +21,31 @@ def gpio_off(gpiono):
 
 def adc_init():
     spi=spidev.SpiDev() # genarate spi instance
-    spi.open(0,0) # select ADC/MCP3008 : bus=0, CE=0
+    spi.open(conf.adc_bus,conf.adc_ce) # select ADC/MCP3008 : bus=0, CE=0
     return spi
 
-def temp_read(adc, ch):
+def temperature_read(adc, ch):
     buf = adc.xfer2([1,((8+ch)<<4),0]) # read adc data
     adResult = ((buf[1]&3)<<8)+buf[2] # select data
     volt= adResult * 3.3 / 1024.0 # converte data to Voltage
-    temp = (volt*1000.0 - 500.0)/10.0 # convertr volt to temp
-    return temp
+    temperature = (volt*1000.0 - 500.0)/10.0 # convertr volt to temp
+    return temperature
 
 if __name__ == ("__main__"):
 
     # raspi adc init
     adc= adc_init()
-    channel=0 # select CH0 : ADC/MCP3008
 
     # raspi gpio init
-    gpio_init(conf.gpiono1)
-
-    interval = interval1
+    gpio_init(conf.gpiono)
 
     # raspi temperature read 
     while (True):
-    #for i in range():
-        gpio_on(conf.gpiono1);
+        gpio_on(conf.gpiono);
         now = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
-        temp = temp_read(adc, channel)
-        message = '{"temperature": ' + str(temp) + ', "recDate": "' + now + '", "deviceId": "ohashi_raspi_modelB"}'
-        print "temperature = ", str(temp) 
+        temperature = temperature_read(adc, conf.mcp9700_channel)
+        message = '{"temperature": ' + str(temperature) + ', "recDate": "' + now + '", "deviceId": "ohashi_raspi_modelB"}'
+        print "temperature = ", str(temperature) 
         print "humidity = ", "comming soon!"
         print "message = ", message
         time.sleep(conf.interval)
