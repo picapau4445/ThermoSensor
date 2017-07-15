@@ -6,6 +6,9 @@ import spidev
 import time
 from datetime import datetime
 
+# AwsIot lib
+# import AwsIotLib.AwsIot as 
+
 # conf
 import thermoSensorConf as conf
 
@@ -48,6 +51,6 @@ if __name__ == ("__main__"):
         print "temperature = ", str(temperature) 
         print "humidity = ", "comming soon!"
         print "message = ", message
-        time.sleep(conf.interval)
+        time.sleep(float(conf.interval))
 
     adc.close()
