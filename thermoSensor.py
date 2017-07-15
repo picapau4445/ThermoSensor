@@ -47,6 +47,7 @@ if __name__ == ("__main__"):
         temp = temp_read(adc, channel)
         message = '{"temperature": ' + str(temp) + ', "recDate": "' + now + '", "deviceId": "ohashi_raspi_modelB"}'
         print("temperature = ", str(temp)) 
+        print("humidity = ", "comming soon!) 
         print("message = ", message)
         time.sleep(interval)
 
