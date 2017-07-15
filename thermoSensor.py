@@ -37,11 +37,11 @@ if __name__ == ("__main__"):
     adc= adc_init()
 
     # raspi gpio init
-    gpio_init(conf.gpiono)
+    gpio_init(conf.gpio_no)
 
     # raspi temperature read 
     while (True):
-        gpio_on(conf.gpiono);
+        gpio_on(conf.gpio_no);
         now = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
         temperature = temperature_read(adc, conf.mcp9700_channel)
         message = '{"temperature": ' + str(temperature) + ', "recDate": "' + now + '", "deviceId": "ohashi_raspi_modelB"}'
