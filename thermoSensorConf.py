@@ -13,5 +13,5 @@ mcp9700_channel = 0
 # temperature read interval(msec)
 interval = 600
 
-# DateTime format
-date_time_frmt = "%Y/%m/%d %H:%M:%S"
+# 
+device_id = "ohashi_raspi_modelB"
