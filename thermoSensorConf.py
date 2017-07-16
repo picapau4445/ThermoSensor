@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+# for environ
+import os
+
 # GPIO Number
 gpio_no = 11
 
@@ -13,5 +16,5 @@ mcp9700_channel = 0
 # temperature read interval(msec)
 interval = 600
 
-# 
-device_id = "ohashi_raspi_modelB"
+# deviceID for IoT message
+device_id = os.getenv("RASPI_DEVICEID")
