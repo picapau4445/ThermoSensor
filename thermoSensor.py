@@ -60,7 +60,7 @@ if __name__ == ("__main__"):
         temperature = temperature_read(spi, conf.mcp9700_channel)
         payload = payloadFormatter.getPayloadString(conf.device_id, str(temperature))
         print "temperature = ", str(temperature) 
-        print "humidity = ", "comming soon!"
+        print "humidity = ", "humidity"
         print "payload = ", payload
 
         if aws_iot_msg_client.publish(payload):
