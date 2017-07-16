@@ -5,6 +5,9 @@ from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
 import sys
 import logging
 
+# conf
+import awsIotMessageConf as conf
+
 class AwsIotMessage:
     
     # client connection instance
@@ -29,30 +32,32 @@ class AwsIotMessage:
         vlogger.addHandler(streamHandler)
         '''
         # Init AWSIoTMQTTClient
-        host = "a3frmv98orkefb.iot.ap-northeast-1.amazonaws.com"
-        connectDevicePackageDir = "/home/pi/connect_device_package/"
-        rootCAPath = connectDevicePackageDir + "root-CA.crt"
-        privateKeyPath = connectDevicePackageDir + "raspi_ohashi.private.key"
-        certificatePath = connectDevicePackageDir + "raspi_ohashi.cert.pem"
+        endpoint = conf.endpoint
+        connectDevicePackageDir = conf.connect_device_package_dir
+        rootCAPath = connectDevicePackageDir + conf.root_ca_file_name
+        privateKeyPath = connectDevicePackageDir + conf.private_key_file_name
+        certificatePath = connectDevicePackageDir + conf.certificate_file_name
 
         self.myAWSIoTMQTTClient = None
-        self.mmyAWSIoTMQTTClient = AWSIoTMQTTClient("raspi_ohashi")
-        self.mmyAWSIoTMQTTClient.configureEndpoint(host, 8883)
-        self.mmyAWSIoTMQTTClient.configureCredentials(rootCAPath, privateKeyPath, certificatePath)
+        self.myAWSIoTMQTTClient = AWSIoTMQTTClient(conf.client_id)
+        self.myAWSIoTMQTTClient.configureEndpoint(endpoint, 8883)
+        self.myAWSIoTMQTTClient.configureCredentials(rootCAPath, privateKeyPath, certificatePath)
 
         # AWSIoTMQTTClient connection configuration
-        self.mmyAWSIoTMQTTClient.configureAutoReconnectBackoffTime(1, 32, 20)
-        self.mmyAWSIoTMQTTClient.configureOfflinePublishQueueing(-1)  # Infinite offline Publish queueing
-        self.mmyAWSIoTMQTTClient.configureDrainingFrequency(2)  # Draining: 2 Hz
-        self.mmyAWSIoTMQTTClient.configureConnectDisconnectTimeout(10)  # 10 sec
-        self.mmyAWSIoTMQTTClient.configureMQTTOperationTimeout(5)  # 5 sec
+        self.myAWSIoTMQTTClient.configureAutoReconnectBackoffTime(1, 32, 20)
+        self.myAWSIoTMQTTClient.configureOfflinePublishQueueing(-1)  # Infinite offline Publish queueing
+        self.myAWSIoTMQTTClient.configureDrainingFrequency(2)  # Draining: 2 Hz
+        self.myAWSIoTMQTTClient.configureConnectDisconnectTimeout(10)  # 10 sec
+        self.myAWSIoTMQTTClient.configureMQTTOperationTimeout(5)  # 5 sec
 
         # Connect and subscribe to AWS IoT
-        self.mmyAWSIoTMQTTClient.connect()
-        #myAWSIoTMQTTClient.subscribe("ohashiRaspiSensor", 1, customCallback)
+        return self.myAWSIoTMQTTClient.connect()
 
-    def publish(self, message):
-        self.mmyAWSIoTMQTTClient.publish("ohashiRaspiSensor", message, 1)
+    def subscribe(self):
+        #myAWSIoTMQTTClient.subscribe(conf.topic, 1, self.customCallback) # arg2 "1" is QoS1
+
+    def publish(self, payload):
+        return self.myAWSIoTMQTTClient.publish(conf.topic, payload, 1) # arg3 "1" is QoS1
 
     def disconnect(self):
-        self.mmyAWSIoTMQTTClient.disconnect()
+        self.myAWSIoTMQTTClient.disconnect()

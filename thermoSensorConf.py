@@ -10,5 +10,8 @@ adc_ce=0
 # ADC/MCP3008 - MCP9700 channel(0-7)
 mcp9700_channel = 0
 
-# tmeperature read interval(msec)
+# temperature read interval(msec)
 interval = 600
+
+# DateTime format
+date_time_frmt = "%Y/%m/%d %H:%M:%S"

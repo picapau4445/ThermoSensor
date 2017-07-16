@@ -7,7 +7,7 @@ import time
 from datetime import datetime
 
 # AwsIot lib
-import AwsIotLib.awsIotMessage as aws
+import AwsIotLib.awsIotpayload as aws
 
 # conf
 import thermoSensorConf as conf
@@ -43,20 +43,27 @@ if __name__ == ("__main__"):
     gpio_init(conf.gpio_no)
 
     # AWS IoT init
-    awsIotMsgClient = aws.AwsIotMessage()
-    awsIotMsgClient.connect()
+    aws_iot_msg_client = aws.AwsIotpayload()
+    if aws_iot_msg_client.connect():
+        print "connected."
+    else:
+        print "connection error."
+        return
 
     # raspi temperature read 
     while (True):
         gpio_on(conf.gpio_no);
-        now = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+        now = datetime.now().strftime(date_time_frmt)
         temperature = temperature_read(adc, conf.mcp9700_channel)
-        message = '{"temperature": ' + str(temperature) + ', "recDate": "' + now + '", "deviceId": "ohashi_raspi_modelB"}'
+        payload = '{"temperature": ' + str(temperature) + ', "recDate": "' + now + '", "deviceId": "ohashi_raspi_modelB"}'
         print "temperature = ", str(temperature) 
         print "humidity = ", "comming soon!"
-        print "message = ", message
-        awsIotMsgClient.publish(message)
+        print "payload = ", payload
+
+        if aws_iot_msg_client.publish(payload):
+            print "payload published."
+
         time.sleep(float(conf.interval))
 
     adc.close()
-    awsIotMsgClient.disconnect()
+    aws_iot_msg_client.disconnect()
