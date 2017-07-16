@@ -55,6 +55,7 @@ class AwsIotMessage:
 
     def subscribe(self):
         #myAWSIoTMQTTClient.subscribe(conf.topic, 1, self.customCallback) # arg2 "1" is QoS1
+        return
 
     def publish(self, payload):
         return self.myAWSIoTMQTTClient.publish(conf.topic, payload, 1) # arg3 "1" is QoS1
