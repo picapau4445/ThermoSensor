@@ -9,7 +9,7 @@ import time
 from datetime import datetime
 
 # AwsIot lib
-import AwsIotLib.awsIotpayload as aws
+import AwsIotLib.awsIotMessage as aws
 
 # conf
 import thermoSensorConf as conf
@@ -45,7 +45,7 @@ if __name__ == ("__main__"):
     gpio_init(conf.gpio_no)
 
     # AWS IoT init
-    aws_iot_msg_client = aws.AwsIotpayload()
+    aws_iot_msg_client = aws.AwsIotMessage()
     if aws_iot_msg_client.connect():
         print "connected."
     else:
