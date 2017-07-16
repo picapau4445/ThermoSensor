@@ -50,7 +50,7 @@ if __name__ == ("__main__"):
         print "connected."
     else:
         print "connection error."
-        sys.exit()
+        sys.exit(1)
 
     # raspi temperature read 
     while (True):
@@ -66,7 +66,7 @@ if __name__ == ("__main__"):
             print "payload published."
         else:
             print "publish error."
-            
+
         time.sleep(float(conf.interval))
 
     adc.close()
