@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import sys
+
 # raspi lib
 import RPi.GPIO as GPIO
 import spidev
@@ -48,7 +50,7 @@ if __name__ == ("__main__"):
         print "connected."
     else:
         print "connection error."
-        return
+        sys.exit()
 
     # raspi temperature read 
     while (True):
@@ -62,7 +64,9 @@ if __name__ == ("__main__"):
 
         if aws_iot_msg_client.publish(payload):
             print "payload published."
-
+        else:
+            print "publish error."
+            
         time.sleep(float(conf.interval))
 
     adc.close()
