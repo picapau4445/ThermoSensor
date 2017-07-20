@@ -17,4 +17,4 @@ mcp9700_channel = 0
 interval = 600
 
 # deviceID for IoT message
-device_id = os.getenv("RASPI_DEVICEID")
+device_id = "ohashi_raspi_modelB"

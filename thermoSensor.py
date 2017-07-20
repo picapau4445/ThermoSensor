@@ -7,6 +7,9 @@ import RPi.GPIO as GPIO
 import spidev
 import time
 
+# DHT11 lib
+import DHT11_Python.dht11 as dht11
+
 # AwsIot lib
 import AwsIotLib.awsIotMessage as aws
 
@@ -47,26 +50,36 @@ if __name__ == ("__main__"):
     gpio_init(conf.gpio_no)
     gpio_on(conf.gpio_no);
 
+    # DHT11 init
+    dht11_instance = dht11.DHT11(pin = 14)
+
     # AWS IoT init
     aws_iot_msg_client = aws.AwsIotMessage()
     if aws_iot_msg_client.connect():
-        print "connected."
+        print("connected.")
     else:
-        print "connection error."
+        print("connection error.")
         sys.exit(1)
 
     # raspi temperature read 
     while (True):
-        temperature = temperature_read(spi, conf.mcp9700_channel)
-        payload = payloadFormatter.getPayloadString(conf.device_id, str(temperature))
-        print "temperature = ", str(temperature) 
-        print "humidity = ", "humidity"
-        print "payload = ", payload
+        result = dht11_instance.read()
+        if result.is_valid():
+            temperature = result.temperature
+            humidity = result.humidity
+            print("Temperature: %d C" % temperature)
+            print("Humidity: %d %%" % humidity)
+            payload = payloadFormatter.getPayloadString2(conf.device_id, str(temperature), str(humidity))
+            print("payload = ", payload)
+            
+            if aws_iot_msg_client.publish(payload):
+                print("payload published.")
+            else:
+                print("publish error.")
 
-        if aws_iot_msg_client.publish(payload):
-            print "payload published."
         else:
-            print "publish error."
+            print("Error: %d" % result.error_code)
+
 
         time.sleep(float(conf.interval))
 
