@@ -4,7 +4,7 @@
 import os
 
 # GPIO Number
-gpio_no = 29
+gpio_no = 14
 
 # ADC/MCP3008 bus,CE
 adc_bus=0
