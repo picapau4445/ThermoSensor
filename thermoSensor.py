@@ -20,8 +20,8 @@ import thermoSensorConf as conf
 import thermoSensorPayload as payloadFormatter
 
 def gpio_init(gpiono):
+    GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BOARD) #use GPIO Number
-    GPIO.setup(gpiono, GPIO.OUT)
 
 def gpio_on(gpiono):
     GPIO.output(gpiono,GPIO.HIGH)
@@ -48,10 +48,9 @@ if __name__ == ("__main__"):
 
     # raspi gpio init
     gpio_init(conf.gpio_no)
-    gpio_on(conf.gpio_no);
 
     # DHT11 init
-    dht11_instance = dht11.DHT11(pin = conf.gpio_no)
+    dht11_instance = dht11.DHT11(pin=conf.gpio_no)
 
     # AWS IoT init
     aws_iot_msg_client = aws.AwsIotMessage()
