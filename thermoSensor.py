@@ -51,7 +51,7 @@ if __name__ == ("__main__"):
     gpio_on(conf.gpio_no);
 
     # DHT11 init
-    dht11_instance = dht11.DHT11(pin = 14)
+    dht11_instance = dht11.DHT11(pin = conf.gpio_no)
 
     # AWS IoT init
     aws_iot_msg_client = aws.AwsIotMessage()
