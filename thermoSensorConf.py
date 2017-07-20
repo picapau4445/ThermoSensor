@@ -3,7 +3,7 @@
 # for environ
 import os
 
-# SPI GPIO Number
+# GPIO Number
 gpio_no = 29
 
 # ADC/MCP3008 bus,CE
