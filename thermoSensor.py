@@ -19,7 +19,7 @@ import thermoSensorConf as conf
 # Payload format
 import thermoSensorPayload as payloadFormatter
 
-def gpio_init(gpiono):
+def gpio_init():
     GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BOARD) #use GPIO Number
 
@@ -43,11 +43,8 @@ def temperature_read(adc, ch):
 
 if __name__ == ("__main__"):
 
-    # raspi spi init
-    spi = spi_init()
-
     # raspi gpio init
-    gpio_init(conf.gpio_no)
+    gpio_init()
 
     # DHT11 init
     dht11_instance = dht11.DHT11(pin=conf.gpio_no)
