@@ -69,7 +69,7 @@ if __name__ == ("__main__"):
         __retry_count = 0
         
         # DHT11 read
-        while (__retry_count >= conf.dht11_retry_count):
+        while (__retry_count <= conf.dht11_retry_count):
             result = dht11_instance.read()
             if result.is_valid():
                 # DHT11 temperature & humidity
