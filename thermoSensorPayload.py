@@ -20,3 +20,14 @@ def getPayloadString2(device_id, temperature, humidity):
               '"deviceId": "' + device_id + '" ' + \
               '}'
     return payload
+
+def getPayloadString3(device_id, temperature, humidity, lux):
+    now = datetime.now().strftime("%Y/%m/%d %H:%M:%S")
+    payload = '{' + \
+              '"temperature": ' + temperature + ', ' + \
+              '"humidity": ' + humidity + ', ' + \
+              '"lux": ' + lux + ', ' + \
+              '"recDate": "' + now + '", ' + \
+              '"deviceId": "' + device_id + '" ' + \
+              '}'
+    return payload

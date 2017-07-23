@@ -10,6 +10,9 @@ import time
 # DHT11 lib
 import DHT11_Python.dht11 as dht11
 
+# GY30 lib
+import GY30Lib.luxSensor as gy30
+
 # AwsIot lib
 import AwsIotLib.awsIotMessage as aws
 
@@ -49,6 +52,9 @@ if __name__ == ("__main__"):
     # DHT11 init
     dht11_instance = dht11.DHT11(pin=conf.gpio_no)
 
+    # GY30 init
+    gy30_instance = gy30.GY30(conf.gy30_bus, conf.gy30_addr)
+
     # AWS IoT init
     aws_iot_msg_client = aws.AwsIotMessage()
     if aws_iot_msg_client.connect():
@@ -61,11 +67,17 @@ if __name__ == ("__main__"):
     while (True):
         result = dht11_instance.read()
         if result.is_valid():
+            # DHT11 temperature & humidity
             temperature = result.temperature
             humidity = result.humidity
             print("Temperature: %d C" % temperature)
             print("Humidity: %d %%" % humidity)
-            payload = payloadFormatter.getPayloadString2(conf.device_id, str(temperature), str(humidity))
+
+            # GY30 lux
+            lux = gy30_instance.read
+            print("Lux: %d" % lux)
+
+            payload = payloadFormatter.getPayloadString3(conf.device_id, str(temperature), str(humidity), str(lux))
             print("payload = ", payload)
             
             if aws_iot_msg_client.publish(payload):
