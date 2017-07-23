@@ -74,7 +74,7 @@ if __name__ == ("__main__"):
             print("Humidity: %d %%" % humidity)
 
             # GY30 lux
-            lux = gy30_instance.read
+            lux = gy30_instance.read()
             print("Lux: %d" % lux)
 
             payload = payloadFormatter.getPayloadString3(conf.device_id, str(temperature), str(humidity), str(lux))
