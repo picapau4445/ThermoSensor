@@ -65,29 +65,36 @@ if __name__ == ("__main__"):
 
     # raspi temperature read 
     while (True):
-        result = dht11_instance.read()
-        if result.is_valid():
-            # DHT11 temperature & humidity
-            temperature = result.temperature
-            humidity = result.humidity
-            print("Temperature: %d C" % temperature)
-            print("Humidity: %d %%" % humidity)
+        
+        __retry_count = 0
+        
+        # DHT11 read
+        while (__retry_count >= conf.dht11_retry_count):
+            result = dht11_instance.read()
+            if result.is_valid():
+                # DHT11 temperature & humidity
+                temperature = result.temperature
+                humidity = result.humidity
+                print("Temperature: %d C" % temperature)
+                print("Humidity: %d %%" % humidity)
 
-            # GY30 lux
-            lux = gy30_instance.read()
-            print("Lux: %d" % lux)
+                # GY30 lux
+                lux = gy30_instance.read()
+                print("Lux: %d" % lux)
 
-            payload = payloadFormatter.getPayloadString3(conf.device_id, str(temperature), str(humidity), str(lux))
-            print("payload = ", payload)
-            
-            if aws_iot_msg_client.publish(payload):
-                print("payload published.")
+                payload = payloadFormatter.getPayloadString3(conf.device_id, str(temperature), str(humidity), str(lux))
+                print("payload = ", payload)
+                
+                if aws_iot_msg_client.publish(payload):
+                    print("payload published.")
+                else:
+                    print("publish error.")
+
             else:
-                print("publish error.")
-
-        else:
-            print("Error: %d" % result.error_code)
-
+                print("DHT11 Error: %d" % result.error_code)
+                __retry_count+=1 
+                print("retry count: %d" % __retry_count)
+                time.sleep(float(conf.dht11_retry_interval))
 
         time.sleep(float(conf.interval))
 

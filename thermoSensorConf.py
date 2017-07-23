@@ -17,7 +17,11 @@ mcp9700_channel = 0
 gy30_bus=1
 gy30_addr=0x23
 
-# temperature read interval(msec)
+# DHT11 retry parameter(sec)
+dht11_retry_interval = 0.1
+dht11_retry_count = 10
+
+# temperature read interval(sec)
 interval = 600
 
 # deviceID for IoT message
