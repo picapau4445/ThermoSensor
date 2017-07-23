@@ -90,10 +90,12 @@ if __name__ == ("__main__"):
                 else:
                     print("publish error.")
 
+                break
+
             else:
                 print("DHT11 Error: %d" % result.error_code)
-                __retry_count+=1 
                 print("retry count: %d" % __retry_count)
+                __retry_count+=1 
                 time.sleep(float(conf.dht11_retry_interval))
 
         time.sleep(float(conf.interval))
